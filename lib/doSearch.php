@@ -6,7 +6,7 @@
 
 		$linkRoot = $_POST['postlink'];
 
-		echo doSearch($query, $linkRoot);
+		doSearch($query, $linkRoot);
 
 	} else {
 		echo false;
