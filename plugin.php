@@ -4,9 +4,9 @@ class pluginSearch extends Plugin {
 		
 	public function siteBodyEnd() {
 
-		global $Url;
+		global $Site;
 
-		$html = '<div class="plugin pluginSearch">';
+		$html  = '<div class="plugin pluginSearch" data-postlink="'.$Site->urlPost().'">';
 		$html .= '<div class="pluginSearchBox"><input type="text" name="q" class="pluginSearchInput" placeholder="'.$this->getDbField('searchText').'" /></div>';
 		$html .= '</div>';
 
@@ -15,7 +15,7 @@ class pluginSearch extends Plugin {
 
 	public function siteHead() {
 
-		$head = '<link rel="stylesheet" href="'.$this->htmlPath().'css/search.css">'.PHP_EOL;
+		$head  = '<link rel="stylesheet" href="'.$this->htmlPath().'css/search.css">'.PHP_EOL;
 		$head .= '<script src="'.$this->htmlPath().'js/search.js"></script>'.PHP_EOL;
 		
 		if($this->shouldSearchShow()) return $head;
