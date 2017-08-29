@@ -29,13 +29,25 @@
 
 		foreach($posts as $title => $post) {
 
-			$searchQuery = explode(' ', $query);
 			$postContent = file_get_contents($contentPosts.$title.'/index.txt');
 
-			foreach($searchQuery as $searchWord) {
-				if(preg_match("/$searchWord/i", $postContent) && !array_key_exists($title, $results)) {
+			if(absoluteSearch($query)) {
+
+				$searchQuery = str_replace('"', '', $query);
+				if(preg_match("/$searchQuery/i", $postContent) && !array_key_exists($title, $results)) {
 					$postTitle = getPostTitle($postContent);
 					$results[$title] = '<div class="searchResult"><a href="'.$linkRoot.$title.'">'.$postTitle.'</a></div>';
+				}
+
+			} else {
+
+				$searchQuery = explode(' ', $query);
+
+				foreach($searchQuery as $searchWord) {
+					if(preg_match("/$searchWord/i", $postContent) && !array_key_exists($title, $results)) {
+						$postTitle = getPostTitle($postContent);
+						$results[$title] = '<div class="searchResult"><a href="'.$linkRoot.$title.'">'.$postTitle.'</a></div>';
+					}
 				}
 			}
 			
@@ -56,4 +68,8 @@
 
 	function getPostTitle($post) {
 		return str_replace('Title: ', '', strtok($post, "\n"));
+	}
+
+	function absoluteSearch($query, $needle = '"') {
+		if($needle === "" || strrpos($query, $needle, -strlen($query)) !== false && $needle === "" || (($temp = strlen($query) - strlen($needle)) >= 0 && strpos($query, $needle, $temp) !== false)) return true;
 	}
