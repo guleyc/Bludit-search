@@ -4,13 +4,15 @@
 
 		$query = $_POST['query'];
 
-		echo doSearch($query);
+		$linkRoot = $_POST['postlink'];
+
+		echo doSearch($query, $linkRoot);
 
 	} else {
 		echo false;
 	}
 
-	function doSearch($query) {
+	function doSearch($query, $linkRoot) {
 		define('BLUDIT', true);
 		$root = str_replace('bl-plugins/search/lib', '', getcwd());
 		$dbPosts = $root.'bl-content/databases/posts.php';
@@ -33,7 +35,7 @@
 			foreach($searchQuery as $searchWord) {
 				if(preg_match("/$searchWord/i", $postContent) && !array_key_exists($title, $results)) {
 					$postTitle = getPostTitle($postContent);
-					$results[$title] = '<div class="searchResult"><a href="/post/'.$title.'">'.$postTitle.'</a></div>';
+					$results[$title] = '<div class="searchResult"><a href="'.$linkRoot.$title.'">'.$postTitle.'</a></div>';
 				}
 			}
 			

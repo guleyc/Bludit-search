@@ -10,7 +10,7 @@ $(function() {
 			$.ajax({
 				url: '/bl-plugins/search/lib/doSearch.php',
 				type: 'POST',
-				data: {query: searchQuery},
+				data: {query: searchQuery, postlink: $('.pluginSearch').attr('data-postlink')},
 				success: function(response) {
 					if(response) {
 					
