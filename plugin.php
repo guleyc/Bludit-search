@@ -43,14 +43,13 @@ class pluginSearch extends Plugin {
 
 		global $Language;
 
-		$html  = '<div class="uk-form-row">';
-		$html .= '<label class="uk-form-label">'.$Language->get('Text in search input').'</label>';
-		$html .= '<div class="uk-form-controls"><input type="text" name="searchText" value="'.$this->getDbField('searchText').'" /></div>';
+		$html  = '<div>';
+		$html .= '<label>'.$Language->get('Text in search input').'</label>';
+		$html .= '<input type="text" name="searchText" value="'.$this->getDbField('searchText').'" />';
 		$html .= '</div>';
 
-		$html .= '<div class="uk-form-row">';
-		$html .= '<label class="uk-form-label">'.$Language->get('Show on pages?').'</label>';
-		$html .= '<div class="uk-form-controls">';
+		$html .= '<div>';
+		$html .= '<label>'.$Language->get('Show on pages?').'</label>';
 		$html .= '<select name="showPage">';
 
 		if($this->getDbField('showPage')) {
@@ -63,11 +62,9 @@ class pluginSearch extends Plugin {
 
 		$html .= '</select>';
 		$html .= '</div>';
-		$html .= '</div>';
 
-		$html .= '<div class="uk-form-row">';
-		$html .= '<label class="uk-form-label">'.$Language->get('Show on blog?').'</label>';
-		$html .= '<div class="uk-form-controls">';
+		$html .= '<div>';
+		$html .= '<label>'.$Language->get('Show on blog?').'</label>';
 		$html .= '<select name="showBlog">';
 
 		if($this->getDbField('showBlog')) {
@@ -80,11 +77,9 @@ class pluginSearch extends Plugin {
 
 		$html .= '</select>';
 		$html .= '</div>';
-		$html .= '</div>';
 
-		$html .= '<div class="uk-form-row">';
-		$html .= '<label class="uk-form-label">'.$Language->get('Show on posts?').'</label>';
-		$html .= '<div class="uk-form-controls">';
+		$html .= '<div>';
+		$html .= '<label>'.$Language->get('Show on posts?').'</label>';
 		$html .= '<select name="showPost">';
 
 		if($this->getDbField('showPost')) {
@@ -96,7 +91,6 @@ class pluginSearch extends Plugin {
 		}
 
 		$html .= '</select>';
-		$html .= '</div>';
 		$html .= '</div>';
 
 		return $html;
