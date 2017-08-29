@@ -7,45 +7,51 @@ class pluginSearch extends Plugin {
 		global $Url;
 
 		$html = '<div class="plugin pluginSearch">';
-		$html .= '<div class="pluginSearchBox"><input type="text" name="q" class="pluginSearchInput" placeholder="Search... " /></div>';
+		$html .= '<div class="pluginSearchBox"><input type="text" name="q" class="pluginSearchInput" placeholder="'.$this->getDbField('searchText').'" /></div>';
 		$html .= '</div>';
 
 		if($this->shouldSearchShow()) return $html;
 	}
 
-    public function siteHead() {
+	public function siteHead() {
 
-    	$head = '<link rel="stylesheet" href="'.$this->htmlPath().'css/search.css">'.PHP_EOL;
-    	$head .= '<script src="'.$this->htmlPath().'js/search.js"></script>'.PHP_EOL;
-    	
-    	if($this->shouldSearchShow()) return $head;
-    }
+		$head = '<link rel="stylesheet" href="'.$this->htmlPath().'css/search.css">'.PHP_EOL;
+		$head .= '<script src="'.$this->htmlPath().'js/search.js"></script>'.PHP_EOL;
+		
+		if($this->shouldSearchShow()) return $head;
+	}
 
-    private function shouldSearchShow() {
+	private function shouldSearchShow() {
 
-    	global $Url;
+		global $Url;
 
-    	if($Url->whereAmI() === 'blog' && $this->getDbField('showBlog')) return true;
-    	if($Url->whereAmI() === 'page' && $this->getDbField('showPage')) return true;
-    	if($Url->whereAmI() === 'post' && $this->getDbField('showPage')) return true;
-    }
+		if($Url->whereAmI() === 'blog' && $this->getDbField('showBlog')) return true;
+		if($Url->whereAmI() === 'page' && $this->getDbField('showPage')) return true;
+		if($Url->whereAmI() === 'post' && $this->getDbField('showPage')) return true;
+	}
 
-    public function init() {
-    	$this->dbFields = array(
-    		'showPage' => false,
-    		'showBlog' => true,
-    		'showPost' => true
-    	);
-    }
+	public function init() {
+		$this->dbFields = array(
+			'showPage' => false,
+			'showBlog' => true,
+			'showPost' => true,
+			'searchText' => 'Search...'
+		);
+	}
 
-    public function form() {
+	public function form() {
 
-    	global $Language;
+		global $Language;
 
-    	$html  = '<div class="uk-form-row">';
-    	$html .= '<label class="uk-form-label">'.$Language->get('Show on pages?').'</label>';
-    	$html .= '<div class="uk-form-controls">';
-    	$html .= '<select name="showPage">';
+		$html  = '<div class="uk-form-row">';
+		$html .= '<label class="uk-form-label">'.$Language->get('Text in search input').'</label>';
+		$html .= '<div class="uk-form-controls"><input type="text" name="searchText" value="'.$this->getDbField('searchText').'" /></div>';
+		$html .= '</div>';
+
+		$html .= '<div class="uk-form-row">';
+		$html .= '<label class="uk-form-label">'.$Language->get('Show on pages?').'</label>';
+		$html .= '<div class="uk-form-controls">';
+		$html .= '<select name="showPage">';
 
 		if($this->getDbField('showPage')) {
 			$html .= '<option value="1" selected>Yes</option>';
@@ -55,14 +61,14 @@ class pluginSearch extends Plugin {
 			$html .= '<option value="0" selected>No</option>';
 		}
 
-    	$html .= '</select>';
-    	$html .= '</div>';
-    	$html .= '</div>';
+		$html .= '</select>';
+		$html .= '</div>';
+		$html .= '</div>';
 
-    	$html .= '<div class="uk-form-row">';
-    	$html .= '<label class="uk-form-label">'.$Language->get('Show on blog?').'</label>';
-    	$html .= '<div class="uk-form-controls">';
-    	$html .= '<select name="showBlog">';
+		$html .= '<div class="uk-form-row">';
+		$html .= '<label class="uk-form-label">'.$Language->get('Show on blog?').'</label>';
+		$html .= '<div class="uk-form-controls">';
+		$html .= '<select name="showBlog">';
 
 		if($this->getDbField('showBlog')) {
 			$html .= '<option value="1" selected>Yes</option>';
@@ -72,14 +78,14 @@ class pluginSearch extends Plugin {
 			$html .= '<option value="0" selected>No</option>';
 		}
 
-    	$html .= '</select>';
-    	$html .= '</div>';
-    	$html .= '</div>';
+		$html .= '</select>';
+		$html .= '</div>';
+		$html .= '</div>';
 
-    	$html .= '<div class="uk-form-row">';
-    	$html .= '<label class="uk-form-label">'.$Language->get('Show on posts?').'</label>';
-    	$html .= '<div class="uk-form-controls">';
-    	$html .= '<select name="showBlog">';
+		$html .= '<div class="uk-form-row">';
+		$html .= '<label class="uk-form-label">'.$Language->get('Show on posts?').'</label>';
+		$html .= '<div class="uk-form-controls">';
+		$html .= '<select name="showPost">';
 
 		if($this->getDbField('showPost')) {
 			$html .= '<option value="1" selected>Yes</option>';
@@ -89,13 +95,13 @@ class pluginSearch extends Plugin {
 			$html .= '<option value="0" selected>No</option>';
 		}
 
-    	$html .= '</select>';
-    	$html .= '</div>';
-    	$html .= '</div>';
+		$html .= '</select>';
+		$html .= '</div>';
+		$html .= '</div>';
 
-    	return $html;
+		return $html;
 
-    }
+	}
 	
 }
 
