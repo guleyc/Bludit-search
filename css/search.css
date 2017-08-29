@@ -1,0 +1,53 @@
+.pluginSearch {
+    margin-top: 50px;
+}
+
+.pluginSearch .pluginSearchBox {
+    position: relative;
+}
+
+.pluginSearch .pluginSearchInput {
+    display: block;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    padding: 10px;
+    font-size: 14px;
+}
+.pluginSearch .pluginSearchInput:focus {
+    border-color: #333;
+}
+
+.pluginSearch .searchResults {
+    margin-top: 20px;
+}
+
+.pluginSearch .searchResults .resultsTitle {
+    margin-bottom: 10px;
+}
+
+.pluginSearch .searchResults .searchResult {
+    margin-bottom: 10px;
+}
+
+.pluginSearch .searchLoader {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border: 2px solid #1862ab;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 800ms infinite linear;
+    position: absolute;
+    top: 50%;
+    right: 10PX;
+    margin-top: -6px;
+}
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}
