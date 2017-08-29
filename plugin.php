@@ -42,8 +42,6 @@ class pluginSearch extends Plugin {
 
     	global $Language;
 
-    	$options = array(true => 'Show', false => 'Hide');
-
     	$html  = '<div class="uk-form-row">';
     	$html .= '<label class="uk-form-label">'.$Language->get('Show on pages?').'</label>';
     	$html .= '<div class="uk-form-controls">';
