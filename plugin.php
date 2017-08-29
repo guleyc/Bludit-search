@@ -34,6 +34,7 @@ class pluginSearch extends Plugin {
 		$this->dbFields = array(
 			'showPage' => false,
 			'showBlog' => true,
+<<<<<<< HEAD
 			'showPost' => true,
 			'searchText' => 'Search...'
 		);
@@ -49,6 +50,17 @@ class pluginSearch extends Plugin {
 		$html .= '</div>';
 
 		$html .= '<div class="uk-form-row">';
+=======
+			'showPost' => true
+		);
+	}
+
+	public function form() {
+
+		global $Language;
+
+		$html  = '<div class="uk-form-row">';
+>>>>>>> ff80aa71d12accdb401fb927d3b013d2014941dc
 		$html .= '<label class="uk-form-label">'.$Language->get('Show on pages?').'</label>';
 		$html .= '<div class="uk-form-controls">';
 		$html .= '<select name="showPage">';
@@ -85,7 +97,11 @@ class pluginSearch extends Plugin {
 		$html .= '<div class="uk-form-row">';
 		$html .= '<label class="uk-form-label">'.$Language->get('Show on posts?').'</label>';
 		$html .= '<div class="uk-form-controls">';
+<<<<<<< HEAD
 		$html .= '<select name="showPost">';
+=======
+		$html .= '<select name="showBlog">';
+>>>>>>> ff80aa71d12accdb401fb927d3b013d2014941dc
 
 		if($this->getDbField('showPost')) {
 			$html .= '<option value="1" selected>Yes</option>';
