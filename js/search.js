@@ -4,7 +4,7 @@ $(function() {
 
 		var searchQuery = $(this).val();
 
-		if(e.keyCode == 13 && searchQuery.length > 3) {
+		if(e.keyCode == 13 && searchQuery.length > 2) {
 			$('.pluginSearchBox').append('<div class="searchLoader"></div>');
 
 			$.ajax({

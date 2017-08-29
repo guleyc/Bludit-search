@@ -10,18 +10,93 @@ class pluginSearch extends Plugin {
 		$html .= '<div class="pluginSearchBox"><input type="text" name="q" class="pluginSearchInput" placeholder="Search... " /></div>';
 		$html .= '</div>';
 
-
-		if($Url->whereAmI() === 'blog' || $Url->whereAmI() === 'post') return $html;
+		if($this->shouldSearchShow()) return $html;
 	}
 
     public function siteHead() {
 
-    	global $Url;
-
     	$head = '<link rel="stylesheet" href="'.$this->htmlPath().'css/search.css">'.PHP_EOL;
     	$head .= '<script src="'.$this->htmlPath().'js/search.js"></script>'.PHP_EOL;
     	
-    	if($Url->whereAmI() === 'blog' || $Url->whereAmI() === 'post')  return $head;
+    	if($this->shouldSearchShow()) return $head;
+    }
+
+    private function shouldSearchShow() {
+
+    	global $Url;
+
+    	if($Url->whereAmI() === 'blog' && $this->getDbField('showBlog')) return true;
+    	if($Url->whereAmI() === 'page' && $this->getDbField('showPage')) return true;
+    	if($Url->whereAmI() === 'post' && $this->getDbField('showPage')) return true;
+    }
+
+    public function init() {
+    	$this->dbFields = array(
+    		'showPage' => false,
+    		'showBlog' => true,
+    		'showPost' => true
+    	);
+    }
+
+    public function form() {
+
+    	global $Language;
+
+    	$options = array(true => 'Show', false => 'Hide');
+
+    	$html  = '<div class="uk-form-row">';
+    	$html .= '<label class="uk-form-label">'.$Language->get('Show on pages?').'</label>';
+    	$html .= '<div class="uk-form-controls">';
+    	$html .= '<select name="showPage">';
+
+		if($this->getDbField('showPage')) {
+			$html .= '<option value="1" selected>Yes</option>';
+			$html .= '<option value="0">No</option>';
+		} else {
+			$html .= '<option value="1">Yes</option>';
+			$html .= '<option value="0" selected>No</option>';
+		}
+
+    	$html .= '</select>';
+    	$html .= '</div>';
+    	$html .= '</div>';
+
+    	$html .= '<div class="uk-form-row">';
+    	$html .= '<label class="uk-form-label">'.$Language->get('Show on blog?').'</label>';
+    	$html .= '<div class="uk-form-controls">';
+    	$html .= '<select name="showBlog">';
+
+		if($this->getDbField('showBlog')) {
+			$html .= '<option value="1" selected>Yes</option>';
+			$html .= '<option value="0">No</option>';
+		} else {
+			$html .= '<option value="1">Yes</option>';
+			$html .= '<option value="0" selected>No</option>';
+		}
+
+    	$html .= '</select>';
+    	$html .= '</div>';
+    	$html .= '</div>';
+
+    	$html .= '<div class="uk-form-row">';
+    	$html .= '<label class="uk-form-label">'.$Language->get('Show on posts?').'</label>';
+    	$html .= '<div class="uk-form-controls">';
+    	$html .= '<select name="showBlog">';
+
+		if($this->getDbField('showPost')) {
+			$html .= '<option value="1" selected>Yes</option>';
+			$html .= '<option value="0">No</option>';
+		} else {
+			$html .= '<option value="1">Yes</option>';
+			$html .= '<option value="0" selected>No</option>';
+		}
+
+    	$html .= '</select>';
+    	$html .= '</div>';
+    	$html .= '</div>';
+
+    	return $html;
+
     }
 	
 }

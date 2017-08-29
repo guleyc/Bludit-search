@@ -1,6 +1,6 @@
 <?php 
 
-	if(!empty($_POST['query']) && strlen($_POST['query']) > 3) {
+	if(!empty($_POST['query']) && strlen($_POST['query']) > 2) {
 
 		$query = $_POST['query'];
 
