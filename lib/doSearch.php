@@ -2,7 +2,7 @@
 
 	if(!empty($_POST['query']) && strlen($_POST['query']) > 2) {
 
-		$query = $_POST['query'];
+		$query = trim($_POST['query']);
 
 		$linkRoot = $_POST['postlink'];
 
@@ -70,6 +70,6 @@
 		return str_replace('Title: ', '', strtok($post, "\n"));
 	}
 
-	function absoluteSearch($query, $needle = '"') {
-		if($needle === "" || strrpos($query, $needle, -strlen($query)) !== false && $needle === "" || (($temp = strlen($query) - strlen($needle)) >= 0 && strpos($query, $needle, $temp) !== false)) return true;
+	function absoluteSearch($query) {
+		return preg_match('/^".*"$/', $query);
 	}
