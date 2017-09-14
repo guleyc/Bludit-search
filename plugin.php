@@ -19,8 +19,7 @@ class pluginSearch extends Plugin {
 		if($this->getDbField('jQuery')) $head .= '<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>'.PHP_EOL;
 		$head .= '<script src="'.$this->htmlPath().'js/search.js"></script>'.PHP_EOL;
 		
-		if($this->getDbField('manual')) return $head;
-		if($this->shouldSearchShow()) return $head;
+		if($this->shouldSearchShow() || $this->getDbField('manual')) return $head;
 	}
 
 	private function shouldSearchShow() {
