@@ -4,17 +4,15 @@
 
 		$query = trim($_POST['query']);
 
-		$linkRoot = $_POST['postlink'];
-
-		doSearch($query, $linkRoot);
+		doSearch($query);
 
 	} else {
 		echo false;
 	}
 
-	function doSearch($query, $linkRoot) {
+	function doSearch($query) {
 		define('BLUDIT', true);
-		$root = str_replace('bl-plugins/search/lib', '', getcwd());
+		$root = preg_replace('/bl-plugins(.*)lib/', '', __DIR__);
 		$dbPosts = $root.'bl-content/databases/posts.php';
 		$contentPosts = $root.'bl-content/posts/';
 
