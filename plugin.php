@@ -6,20 +6,24 @@ class pluginSearch extends Plugin {
 
 		global $Site;
 
-		$html  = '<div class="plugin pluginSearch">';
+		$html  = '<div class="plugin pluginSearch" data-postlink="'.$Site->urlPost().'">';
 		$html .= '<div class="pluginSearchBox"><input type="text" name="q" class="pluginSearchInput" placeholder="'.$this->getDbField('searchText').'" /></div>';
 		$html .= '</div>';
 
-		if($this->shouldSearchShow() && !$this->getDbField('manual')) return $html;
+		if($this->shouldSearchShow()) return $html;
 	}
 
 	public function siteHead() {
 
 		$head  = '<link rel="stylesheet" href="'.$this->htmlPath().'css/search.css">'.PHP_EOL;
-		if($this->getDbField('jQuery')) $head .= '<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>'.PHP_EOL;
-		$head .= '<script src="'.$this->htmlPath().'js/search.js"></script>'.PHP_EOL;
 		
-		if($this->shouldSearchShow() || $this->getDbField('manual')) return $head;
+		if($this->shouldSearchShow()) return $head;
+	}
+	
+	public function siteJavascript() {
+		$script = '<script src="'.$this->htmlPath().'js/search.js"></script>'.PHP_EOL;
+		
+		if($this->shouldSearchShow()) return $script;
 	}
 
 	private function shouldSearchShow() {
@@ -36,108 +40,48 @@ class pluginSearch extends Plugin {
 			'showPage' => false,
 			'showBlog' => true,
 			'showPost' => true,
-			'searchText' => 'Search...',
-			'manual' => false,
-			'jQuery' => false
+			'searchText' => 'Search...'
 		);
 	}
 
 	public function form() {
 
-		global $Language;
+		global $L;
 
-		$html  = '<div>';
-		$html .= '<label>'.$Language->get('Text in search input').'</label>';
-		$html .= '<input type="text" name="searchText" value="'.$this->getDbField('searchText').'" />';
-		$html .= '</div>';
+		HTML::formInputText(array(
+			'name' => 'searchText',
+			'label' => $L->g('Text in search input'),
+			'value' => $this->getDbField('searchText'),
+			'class' => 'uk-width-1-2 uk-form-medium',
+			'tip' => ''
+		));
 
-		$html .= '<div>';
-		$html .= '<label>'.$Language->get('Show on pages?').'</label>';
-		$html .= '<select name="showPage">';
+		HTML::formSelect(array(
+			'name' => 'showPage',
+			'label' => $L->g('Show on pages?'),
+			'options' => array(1 => $L->g('Yes'), 0 => $L->g('No')),
+			'selected' => $this->getDbField('showPage'),
+			'class'=>'uk-width-1-4 uk-form-medium',
+			'tip'=>$L->g('position-tip')
+		));		
 
-		if($this->getDbField('showPage')) {
-			$html .= '<option value="1" selected>Yes</option>';
-			$html .= '<option value="0">No</option>';
-		} else {
-			$html .= '<option value="1">Yes</option>';
-			$html .= '<option value="0" selected>No</option>';
-		}
+		HTML::formSelect(array(
+			'name' => 'showBlog',
+			'label' => $L->g('Show on blog?'),
+			'options' => array(1 => $L->g('Yes'), 0 => $L->g('No')),
+			'selected' => $this->getDbField('showBlog'),
+			'class'=>'uk-width-1-4 uk-form-medium',
+			'tip'=>$L->g('position-tip')
+		));		
 
-		$html .= '</select>';
-		$html .= '</div>';
-
-		$html .= '<div>';
-		$html .= '<label>'.$Language->get('Show on blog?').'</label>';
-		$html .= '<select name="showBlog">';
-
-		if($this->getDbField('showBlog')) {
-			$html .= '<option value="1" selected>Yes</option>';
-			$html .= '<option value="0">No</option>';
-		} else {
-			$html .= '<option value="1">Yes</option>';
-			$html .= '<option value="0" selected>No</option>';
-		}
-
-		$html .= '</select>';
-		$html .= '</div>';
-
-		$html .= '<div>';
-		$html .= '<label>'.$Language->get('Show on posts?').'</label>';
-		$html .= '<select name="showPost">';
-
-		if($this->getDbField('showPost')) {
-			$html .= '<option value="1" selected>Yes</option>';
-			$html .= '<option value="0">No</option>';
-		} else {
-			$html .= '<option value="1">Yes</option>';
-			$html .= '<option value="0" selected>No</option>';
-		}
-
-		$html .= '</select>';
-		$html .= '</div>';
-		
-
-		$html .= '<div>';
-		$html .= '<label>'.$Language->get('Manual install plugin?').'</label>';
-		$html .= '<select name="manual">';
-
-		if($this->getDbField('manual')) {
-			$html .= '<option value="1" selected>Yes</option>';
-			$html .= '<option value="0">No</option>';
-		} else {
-			$html .= '<option value="1">Yes</option>';
-			$html .= '<option value="0" selected>No</option>';
-		}
-
-		$html .= '</select>';
-		$html .= '<div>';
-		$html .= '<label>Copt this inside your theme</label>';
-		$html .= '<pre><code>';
-		$html .= htmlentities('<div class="plugin pluginSearch">').PHP_EOL;
-		$html .= htmlentities('	<div class="pluginSearchBox">').PHP_EOL;
-		$html .= htmlentities('		<input type="text" name="q" class="pluginSearchInput" placeholder="'.$this->getDbField('searchText').'" />').PHP_EOL;
-		$html .= htmlentities('	</div>').PHP_EOL;
-		$html .= htmlentities('</div>');
-		$html .= '</code></pre>';
-		$html .= '</div>';
-		$html .= '</div>';
-		
-
-		$html .= '<div>';
-		$html .= '<label>'.$Language->get('Add jQuery?').' <small>Change to yes if your theme dosn\'t have jQuery</small></label>';
-		$html .= '<select name="jQuery">';
-
-		if($this->getDbField('jQuery')) {
-			$html .= '<option value="1" selected>Yes</option>';
-			$html .= '<option value="0">No</option>';
-		} else {
-			$html .= '<option value="1">Yes</option>';
-			$html .= '<option value="0" selected>No</option>';
-		}
-
-		$html .= '</select>';
-		$html .= '</div>';
-		return $html;
+		HTML::formSelect(array(
+			'name' => 'showPost',
+			'label' => $L->g('Show on posts?'),
+			'options' => array(1 => $L->g('Yes'), 0 => $L->g('No')),
+			'selected' => $this->getDbField('showPost'),
+			'class'=>'uk-width-1-4 uk-form-medium',
+			'tip'=>$L->g('position-tip')
+		));
 
 	}
 	
